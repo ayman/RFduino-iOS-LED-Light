@@ -1,5 +1,6 @@
 # MacOS
 .DS_Store
+iOS/Arduino_servo
 # Xcode
 #
 build/

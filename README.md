@@ -30,5 +30,14 @@ You'll need some big things and some small things for this.
    Get what fits your powersupply.
 3. [Plug Receptacle](http://www.adafruit.com/products/578)
 4. [3.3V Regulator](https://www.sparkfun.com/products/526)
-5. Wires, solder, etc. 
+5. Wires, solder, etc.
+
+## Does this work?
+
+Yes, very basic functionality is here. And the default sample iOS app,
+downloadable from the Apple store, will control the light...for now
+its all based on the
+[Color Wheel example](http://files.rfdigital.com/rfduino.rgb.colorwheel.guide.pdf).
+
+
 

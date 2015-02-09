@@ -28,11 +28,10 @@ class FirstViewController: UIViewController, CBCentralManagerDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func centralManager(central: CBCentralManager!, didDiscoverPeripheral peripheral: CBPeripheral!, advertisementData: (NSDictionary), RSSI: NSNumber!) {
+    func centralManager(central: CBCentralManager!,
+                        didDiscoverPeripheral peripheral: CBPeripheral!,
+                        advertisementData: (NSDictionary), RSSI: NSNumber!) {
         println("Discovered: \(peripheral.name)")
-        // textField.text = textField.text + "Discovered: \(peripheral.name)\n"
-        
-        
         // self.connectingPeripheral = peripheral
         // centralManager.stopScan()
         // self.centralManager.connectPeripheral(peripheral, options: nil)
@@ -45,17 +44,13 @@ class FirstViewController: UIViewController, CBCentralManagerDelegate {
             msg = "CoreBluetooth BLE hardware is powered off"
         case .PoweredOn:
             msg = "CoreBluetooth BLE hardware is powered on and ready"
-            // blueToothReady = true;
             self.central.scanForPeripheralsWithServices(nil, options: nil)
         case .Resetting:
-            msg = "CoreBluetooth BLE hardware is resetting"
-            
+            msg = "CoreBluetooth BLE hardware is resetting"            
         case .Unauthorized:
-            msg = "CoreBluetooth BLE state is unauthorized"
-            
+            msg = "CoreBluetooth BLE state is unauthorized"           
         case .Unknown:
-            msg = "CoreBluetooth BLE state is unknown"
-            
+            msg = "CoreBluetooth BLE state is unknown"            
         case .Unsupported:
             msg = "CoreBluetooth BLE hardware is unsupported on this platform"
         }

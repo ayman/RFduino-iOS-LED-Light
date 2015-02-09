@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import CoreBluetooth
 
+// Example: https://gist.github.com/nolili/a583ea045dafafebb17f
+
 class FirstViewController: UIViewController, CBCentralManagerDelegate {
     var central: CBCentralManager!
     

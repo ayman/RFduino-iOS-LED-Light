@@ -10,7 +10,8 @@
 
 #include <RFduinoBLE.h>
 
-// a count
+// a count because we have to set this to init the strip...silly we
+// can't ask the strip.
 int nLEDs = 32;
 
 // a state
@@ -24,9 +25,9 @@ int led2 = 3;
 int led3 = 4;
 int button = 5;
 
-uint8_t red = 255;
-uint8_t green = 255;
-uint8_t blue = 255;
+uint8_t red = 127;
+uint8_t green = 127;
+uint8_t blue = 127;
 
 // debounce time (in ms)
 int debounce_time = 10;
@@ -45,7 +46,7 @@ LPD8806 strip = LPD8806(nLEDs, dataPin, clockPin);
 // etc.), data = pin 11, clock = pin 13.  For Arduino Mega, data = pin 51,
 // clock = pin 52.  For 32u4 Breakout Board+ and Teensy, data = pin B2,
 // clock = pin B1.  For Leonardo, this can ONLY be done on the ICSP pins.
-//LPD8806 strip = LPD8806(nLEDs);
+// LPD8806 strip = LPD8806(nLEDs);
 
 void setup() {
 #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000L)
@@ -83,7 +84,7 @@ void loop() {
 }
 
 void allLightsOn(bool on) {
-  int i;
+  // int i;
   int r = red;
   int g = green;
   int b = blue;
@@ -91,13 +92,17 @@ void allLightsOn(bool on) {
   lightsOn = on;
 
   if (!on) {
-    r = 0;
-    g = 0;
-    b = 0;
+    for (int i = strip.numPixels() - 1; i >= 0; i--) {
+      strip.setPixelColor(i, strip.Color(0, 0, 0));
+      strip.show();
+    }
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
+    return;
   }
 
-  // for (i = 0; i < strip.numPixels(); i++) {
-  for (i = strip.numPixels() - 1; i >= 0; i--) {
+  for (int i = strip.numPixels() - 1; i >= 0; i--) {
     strip.setPixelColor(i, strip.Color(r, g, b));
     strip.show();
   }
@@ -108,56 +113,56 @@ void allLightsOn(bool on) {
 
 void RFduinoBLE_onConnect() {
   // the default starting color on the iPhone is white
-  analogWrite(led1, 255);
-  analogWrite(led2, 255);
-  analogWrite(led3, 255);
+  // analogWrite(led1, 255);
+  // analogWrite(led2, 255);
+  // analogWrite(led3, 255);
   allLightsOn(true);
 }
 
 void RFduinoBLE_onDisconnect() {
   // turn all leds off on disconnect and stop pwm
-  digitalWrite(led1, LOW);
-  digitalWrite(led2, LOW);
-  digitalWrite(led3, LOW);
+  // digitalWrite(led1, LOW);
+  // digitalWrite(led2, LOW);
+  // digitalWrite(led3, LOW);
   allLightsOn(false);
 }
 
 void RFduinoBLE_onReceive(char *data, int len) {
-  int i; // = strip.numPixels() - 1;
+  // int i; // = strip.numPixels() - 1;
 
   // each transmission should contain an RGB triple
   if (len >= 3)
-  {
+    {
 
-    lightsOn = true;
-    // get the RGB values
-    uint8_t r = data[0];
-    uint8_t g = data[1];
-    uint8_t b = data[2];
+      lightsOn = true;
+      // get the RGB values
+      uint8_t r = data[0];
+      uint8_t g = data[1];
+      uint8_t b = data[2];
 
-    red = r;
-    green = g;
-    blue = b;
+      red = r;
+      green = g;
+      blue = b;
 
-    if (red == 6 && green == 6 && blue == 6) {
-      rainbow(10);
-      return;
+      if (red == 6 && green == 6 && blue == 6) {
+        rainbow(10);
+        return;
+      }
+      if (red == 1 && green == 2 && blue == 3) {
+        theaterChaseRainbow(50);
+        return;
+      }
+
+      // set PWM for each led
+      analogWrite(led1, r);
+      analogWrite(led2, g);
+      analogWrite(led3, b);
+
+      for (int i = strip.numPixels() - 1; i >= 0; i--) {
+        strip.setPixelColor(i, strip.Color(r, g, b));
+        strip.show();
+      }
     }
-    if (red == 1 && green == 2 && blue == 3) {
-      theaterChaseRainbow(50);
-      return;
-    }
-
-    // set PWM for each led
-    analogWrite(led1, r);
-    analogWrite(led2, g);
-    analogWrite(led3, b);
-
-    for (i = strip.numPixels() - 1; i >= 0; i--) {
-      strip.setPixelColor(i, strip.Color(r, g, b));
-      strip.show();
-    }
-  }
 }
 
 int debounce(int state)
@@ -171,11 +176,11 @@ int debounce(int state)
 
   while (millis() - start < debounce_timeout)
     if (digitalRead(button) == state)
-    {
-      if (millis() - debounce_start >= debounce_time) {
-        return 1;
-      }
-    } else {
+      {
+        if (millis() - debounce_start >= debounce_time) {
+          return 1;
+        }
+      } else {
       debounce_start = millis();
     }
   analogWrite(led1, 255);
@@ -200,17 +205,17 @@ int delay_until_button(int state)
 
   // if multiple buttons were configured, this is how you would determine what woke you up
   if (RFduino_pinWoke(button))
-  {
-    // execute code here
-    lightsOn = !lightsOn;
-    if (lightsOn == false) {
-      allLightsOn(false);
-    } else {
-      allLightsOn(true);
-    }
+    {
+      // execute code here
+      lightsOn = !lightsOn;
+      if (lightsOn == false) {
+        allLightsOn(false);
+      } else {
+        allLightsOn(true);
+      }
 
-    RFduino_resetPinWake(button);
-  }
+      RFduino_resetPinWake(button);
+    }
 }
 
 void rainbow(uint8_t wait) {
@@ -319,7 +324,7 @@ uint32_t Wheel(uint16_t WheelPos)
 {
   byte r, g, b;
   switch (WheelPos / 128)
-  {
+    {
     case 0:
       r = 127 - WheelPos % 128;   //Red down
       g = WheelPos % 128;      // Green up
@@ -335,7 +340,7 @@ uint32_t Wheel(uint16_t WheelPos)
       r = WheelPos % 128;      //red up
       g = 0;                  //green off
       break;
-  }
+    }
   return (strip.Color(r, g, b));
 }
 

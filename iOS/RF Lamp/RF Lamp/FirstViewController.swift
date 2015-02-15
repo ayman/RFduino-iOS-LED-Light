@@ -17,7 +17,7 @@ class FirstViewController:
       CBPeripheralDelegate {
     var central: CBCentralManager!
     var rfduino: CBPeripheral!
-    var serviceChar: CBCharacteristic!
+    var service: CBService!
     var sendChar: CBCharacteristic!
     var receiveChar: CBCharacteristic!
     var disconnnectChar: CBCharacteristic!
@@ -93,6 +93,7 @@ class FirstViewController:
         else {
             for service in peripheral.services as [CBService]!{
                 println("Service: \(service.description)")
+                self.service = service;
                 peripheral.discoverCharacteristics(nil, forService: service)
             }
         }
@@ -108,8 +109,6 @@ class FirstViewController:
                 println(" \(characteristic.UUID.UUIDString)")
                 switch (characteristic.UUID.UUIDString) {
                 // These are hardcoded in the RFDuino
-                case "2220":
-                    self.serviceChar = characteristic
                 case "2221":
                     self.receiveChar = characteristic
                 case "2222":

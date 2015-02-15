@@ -6,15 +6,24 @@
 //  GPL 3.0.
 //
 
-import Foundation
 import UIKit
 import CoreBluetooth
 
 // Example: https://gist.github.com/nolili/a583ea045dafafebb17f
 
-class FirstViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
+class FirstViewController:
+      UIViewController,
+      CBCentralManagerDelegate,
+      CBPeripheralDelegate {
     var central: CBCentralManager!
     var rfduino: CBPeripheral!
+    var serviceChar: CBCharacteristic!
+    var sendChar: CBCharacteristic!
+    var receiveChar: CBCharacteristic!
+    var disconnnectChar: CBCharacteristic!
+    
+    @IBOutlet var onSwitch : UISwitch!
+    @IBOutlet var onLabel : UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +38,16 @@ class FirstViewController: UIViewController, CBCentralManagerDelegate, CBPeriphe
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func onSwitchTapped(sender: AnyObject){
+        var rawArray:[UInt8] = [0xFF, 0xFF, 0xFF];
+        if !((sender as UISwitch).on) {
+            rawArray = [0x00, 0x00, 0x00]
+        } else {
+            
+        }
+        let data = NSData(bytes: &rawArray, length: rawArray.count)
+        rfduino.writeValue(data, forCharacteristic: sendChar, type: CBCharacteristicWriteType.WithoutResponse)
+    }
     
     func centralManagerDidUpdateState(central: CBCentralManager!) {
         var msg = ""
@@ -83,12 +102,24 @@ class FirstViewController: UIViewController, CBCentralManagerDelegate, CBPeriphe
                     didDiscoverCharacteristicsForService service: CBService!,
                     error: NSError!) {
         if let actualError = error{
-            
+            println("There was an error...who knows....")            
         } else {
             for characteristic in service.characteristics as [CBCharacteristic]{
                 println(" \(characteristic.UUID.UUIDString)")
+                switch (characteristic.UUID.UUIDString) {
+                // These are hardcoded in the RFDuino
+                case "2220":
+                    self.serviceChar = characteristic
+                case "2221":
+                    self.receiveChar = characteristic
+                case "2222":
+                    self.sendChar = characteristic
+                case "2223":
+                    self.disconnnectChar = characteristic
+                default:
+                    println("nothing")
+                }
             }
         }
     }
-
 }

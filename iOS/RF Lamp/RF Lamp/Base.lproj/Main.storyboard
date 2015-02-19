@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Lamp-->
@@ -16,14 +17,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P0e-yH-GEQ">
-                                <rect key="frame" x="239" y="289" width="51" height="31"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P0e-yH-GEQ" userLabel="On">
+                                <rect key="frame" x="485" y="39" width="51" height="31"/>
                                 <connections>
                                     <action selector="onSwitchTapped:" destination="9pv-A4-QxB" eventType="valueChanged" id="AW1-6K-SuI"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="On" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ab-VB-iTg">
-                                <rect key="frame" x="296" y="293" width="42" height="23"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ab-VB-iTg">
+                                <rect key="frame" x="542" y="45" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="42" id="nqx-r5-SqW"/>
                                 </constraints>
@@ -31,35 +32,73 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="I Guess Load 2nd Screen if there's no set lamp(s)." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5M-7J-77L">
-                                <rect key="frame" x="139" y="247" width="322" height="17"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I Guess Load 2nd Screen if there's no set lamp(s)." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5M-7J-77L">
+                                <rect key="frame" x="16" y="78" width="322" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" text="RF Lamp" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <rect key="frame" x="218" y="188" width="248" height="42"/>
+                                <rect key="frame" x="16" y="28" width="158" height="42"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NoK-YR-pdC">
+                                <rect key="frame" x="264" y="116" width="72" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Medium">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="lightValue:" destination="9pv-A4-QxB" eventType="touchUpInside" id="xgI-k9-YBa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zq6-e8-YM6">
+                                <rect key="frame" x="168" y="116" width="41" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="High">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="lightValue:" destination="9pv-A4-QxB" eventType="touchUpInside" id="lR6-RM-L0H"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9H-rA-IYM">
+                                <rect key="frame" x="391" y="116" width="38" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Low">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="lightValue:" destination="9pv-A4-QxB" eventType="touchUpInside" id="cGK-oa-p3B"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
-                            <constraint firstItem="6Ab-VB-iTg" firstAttribute="top" secondItem="A5M-7J-77L" secondAttribute="bottom" constant="29" id="MNH-ty-1Kp"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="8" symbolic="YES" id="cfb-er-3JN"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="e1l-AV-tCB"/>
-                            <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
-                            <constraint firstItem="P0e-yH-GEQ" firstAttribute="centerY" secondItem="6Ab-VB-iTg" secondAttribute="centerY" id="frd-UX-s7W"/>
-                            <constraint firstItem="P0e-yH-GEQ" firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="iu8-hT-oJi"/>
-                            <constraint firstItem="6Ab-VB-iTg" firstAttribute="leading" secondItem="P0e-yH-GEQ" secondAttribute="trailing" constant="8" symbolic="YES" id="s8J-9N-A81"/>
-                            <constraint firstItem="P0e-yH-GEQ" firstAttribute="top" secondItem="A5M-7J-77L" secondAttribute="bottom" constant="25" id="zAv-ar-GN1"/>
+                            <constraint firstItem="KQZ-1w-vlD" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="8" id="3ni-kI-Lqm"/>
+                            <constraint firstItem="KQZ-1w-vlD" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="48a-QF-bZe"/>
+                            <constraint firstItem="P0e-yH-GEQ" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="19" id="8PK-4L-1FM"/>
+                            <constraint firstAttribute="centerX" secondItem="NoK-YR-pdC" secondAttribute="centerX" id="AF8-9L-pQz"/>
+                            <constraint firstItem="6Ab-VB-iTg" firstAttribute="leading" secondItem="P0e-yH-GEQ" secondAttribute="trailing" constant="8" id="Ev3-Br-hlJ"/>
+                            <constraint firstItem="h9H-rA-IYM" firstAttribute="baseline" secondItem="NoK-YR-pdC" secondAttribute="baseline" id="OW8-Io-Wk6"/>
+                            <constraint firstItem="NoK-YR-pdC" firstAttribute="leading" secondItem="zq6-e8-YM6" secondAttribute="trailing" constant="55" id="R6y-wj-phQ"/>
+                            <constraint firstItem="6Ab-VB-iTg" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="Zqc-Uf-AJO"/>
+                            <constraint firstItem="h9H-rA-IYM" firstAttribute="leading" secondItem="NoK-YR-pdC" secondAttribute="trailing" constant="55" id="f62-R7-C12"/>
+                            <constraint firstItem="NoK-YR-pdC" firstAttribute="top" secondItem="A5M-7J-77L" secondAttribute="bottom" constant="21" id="kfi-ay-O3w"/>
+                            <constraint firstItem="h9H-rA-IYM" firstAttribute="baseline" secondItem="zq6-e8-YM6" secondAttribute="baseline" id="t0C-tf-JOb"/>
+                            <constraint firstItem="A5M-7J-77L" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="8" id="vht-Qo-XAB"/>
+                            <constraint firstItem="A5M-7J-77L" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="yw0-rj-NP1"/>
+                            <constraint firstItem="6Ab-VB-iTg" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="25" id="zAI-se-Vwq"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Lamp" image="first" id="acW-dT-cKf"/>
                     <connections>
+                        <outlet property="highButton" destination="zq6-e8-YM6" id="hwe-TW-zCt"/>
+                        <outlet property="lowButton" destination="NoK-YR-pdC" id="62b-jb-35u"/>
+                        <outlet property="mediumButton" destination="h9H-rA-IYM" id="bMB-ig-9lG"/>
                         <outlet property="onLabel" destination="6Ab-VB-iTg" id="8lg-7p-EU5"/>
                         <outlet property="onSwitch" destination="P0e-yH-GEQ" id="RVg-s3-cwY"/>
                     </connections>

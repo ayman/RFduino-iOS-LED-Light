@@ -24,6 +24,9 @@ class FirstViewController:
     
     @IBOutlet var onSwitch : UISwitch!
     @IBOutlet var onLabel : UILabel!
+    @IBOutlet var highButton : UIButton!
+    @IBOutlet var mediumButton : UIButton!
+    @IBOutlet var lowButton : UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,13 +45,23 @@ class FirstViewController:
         var rawArray:[UInt8] = [0xFF, 0xFF, 0xFF];
         if !((sender as UISwitch).on) {
             rawArray = [0x00, 0x00, 0x00]
-        } else {
-            
-        }
+        } 
         let data = NSData(bytes: &rawArray, length: rawArray.count)
         rfduino.writeValue(data, forCharacteristic: sendChar, type: CBCharacteristicWriteType.WithoutResponse)
     }
     
+    @IBAction func lightValue(sender: AnyObject) {
+        var b = (sender as UIButton)
+        var rawArray:[UInt8] = [0x7F, 0x7F, 0x7F];
+        if (b.currentTitle == "Medium") {
+            rawArray = [0x40, 0x40, 0x40]
+        } else if (b.currentTitle == "Low") {
+            rawArray = [0x0A, 0x0A, 0x0A]
+        }
+        let data = NSData(bytes: &rawArray, length: rawArray.count)
+        rfduino.writeValue(data, forCharacteristic: sendChar, type: CBCharacteristicWriteType.WithoutResponse)
+    }
+
     func centralManagerDidUpdateState(central: CBCentralManager!) {
         var msg = ""
         switch (central.state) {

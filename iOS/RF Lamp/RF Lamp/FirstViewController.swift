@@ -27,7 +27,13 @@ class FirstViewController:
     @IBOutlet var highButton : UIButton!
     @IBOutlet var mediumButton : UIButton!
     @IBOutlet var lowButton : UIButton!
-
+    @IBOutlet var hSlide : UISlider!
+    @IBOutlet var sSlide : UISlider!
+    @IBOutlet var bSlide : UISlider!
+    @IBOutlet var hField : UITextField!
+    @IBOutlet var sField : UITextField!
+    @IBOutlet var bField : UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -45,7 +51,7 @@ class FirstViewController:
         var rawArray:[UInt8] = [0xFF, 0xFF, 0xFF];
         if !((sender as UISwitch).on) {
             rawArray = [0x00, 0x00, 0x00]
-        } 
+        }
         let data = NSData(bytes: &rawArray, length: rawArray.count)
         rfduino.writeValue(data, forCharacteristic: sendChar, type: CBCharacteristicWriteType.WithoutResponse)
     }
@@ -62,6 +68,37 @@ class FirstViewController:
         rfduino.writeValue(data, forCharacteristic: sendChar, type: CBCharacteristicWriteType.WithoutResponse)
     }
 
+    @IBAction func sliderChanged(sender: AnyObject) {
+        var s = (sender as UISlider)
+        var f = self.hField
+        if (s == self.sSlide) {
+            f = self.sField
+        } else if (s == self.bSlide) {
+            f = self.bField
+        }
+        f.text = NSString(format: "%.2f", s.value)
+    }
+    
+    @IBAction func sliderDone(sender: AnyObject) {
+        // Float and CGFloat are not auto casted!
+        var hf : CGFloat = CGFloat(hSlide.value)
+        var sf : CGFloat = CGFloat(sSlide.value)
+        var vf : CGFloat = CGFloat(bSlide.value)
+        var c = UIColor(hue: hf, saturation: sf, brightness: vf, alpha: 1.0)
+        var rf = CGFloat(1.0)
+        var gf = CGFloat(1.0)
+        var bf = CGFloat(1.0)
+        var af = CGFloat(1.0)
+        c.getRed(&rf, green: &gf, blue: &bf, alpha: &af)
+        println(c)
+        var rd = UInt8(255 * rf)
+        var gd = UInt8(255 * gf)
+        var bd = UInt8(255 * bf)
+        var rawArray:[UInt8] = [rd, gd, bd];
+        let data = NSData(bytes: &rawArray, length: rawArray.count)
+        rfduino.writeValue(data, forCharacteristic: sendChar, type: CBCharacteristicWriteType.WithoutResponse)
+    }
+    
     func centralManagerDidUpdateState(central: CBCentralManager!) {
         var msg = ""
         switch (central.state) {
